@@ -76,6 +76,8 @@ const build = ({
                             '@babel/plugin-proposal-private-methods',
                         ],
                         // https://github.com/rollup/rollup-plugin-babel/issues/254
+                        // Make sure **not** to exclude node_modules as they might contain newer
+                        // code than the one required by supportedBrowsers
                         exclude: [/\/core-js\//],
                         presets: [
                             ['@babel/preset-env', {
