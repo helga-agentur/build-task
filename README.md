@@ -26,7 +26,7 @@ Styles support:
 
 # Usage
 
-1. Install task and peer dependencies: `npm i -D @joinbox/build-task browser-sync gulp babel-eslint`
+1. Install task and peer dependencies: `npm i -D @babel/core browser-sync @babel/eslint-parser @joinbox/build-task gulp postcss`
 1. Copy the contents of the provided [gulpfile.js](gulpfile.js) to your project
 1. Change import path: `{ buildJavaScript, buildStyles } = require('@joinbox/build-task')`
 1. Modify paths where needed
@@ -40,12 +40,18 @@ Styles support:
 system for our tests
 
 
+# Migrate from v1.x to v2.x
+
+Main change is the update from Node Sass to Dart Sass which comes with a breaking change for 
+SASS files: One must use `math.div` instead of `/`. There's an [auto migrate plugin](https://sass-lang.com/documentation/breaking-changes/slash-div).
+
+
 # Migrate from v0.x to v1.x
-​
+
 ## gulpfile.js
 * Copy `gulpfile` from [here](ttps://github.com/joinbox/build-task/blob/HEAD/gulpfile.js) or another project
 * Update `proxy-url`
-​
+
 ## package.json:
 * Change `@joinbox/build-task` to newest version 
 * Remove `node-sass` and all other dependencies of the previous build task
@@ -63,7 +69,7 @@ into your dist files by the build task)
 ## main.js
 - Remove `@babel/polyfill`, `regenerator-runtime/runtime` and `core-js/stable`. They are replaced
 by the task's `useBuiltIns: true` which compiles `core-js` into the dist files where needed
-​
+
 ## console
 * Install all dependencies that are required in your current `gulpfile.js`
     ```
@@ -72,8 +78,3 @@ by the task's `useBuiltIns: true` which compiles `core-js` into the dist files w
 * Delete current modules: `rm -r node_modules`
 * Install modules: `npm i`
 * `npm start`
-
-# Migrate from v1.x to v2.x
-
-Main change is the update from Node Sass to Dart Sass which comes with a breaking change for 
-SASS files: One must use `math.div` instead of `/`. There's an [auto migrate plugin](https://sass-lang.com/documentation/breaking-changes/slash-div).
