@@ -26,6 +26,9 @@ Styles support:
 
 # Usage
 
+**Important**: If a version mismatch pops up, use `--force` in `npm i`. Build task will be upgraded
+soon to not rely on that tech anymore.
+
 1. Install task and peer dependencies: `npm i -D @babel/core browser-sync @babel/eslint-parser @joinbox/build-task gulp postcss`
 1. Copy the contents of the provided [gulpfile.js](gulpfile.js) to your project
 1. Change import path: `{ buildJavaScript, buildStyles } = require('@joinbox/build-task')`
