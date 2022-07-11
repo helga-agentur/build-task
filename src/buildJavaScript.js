@@ -50,10 +50,14 @@ const build = ({
                     // therefore we have to import it.
                     eslint({
                         // Use babel-eslint to lint JS as it supports ESNext
-                        parser: 'babel-eslint',
+                        parser: '@babel/eslint-parser',
                         ...eslintRules,
                         // Place useEslintrc at the end to overwrite contradicting properties
                         useEslintrc: false,
+                        // Config is read via import, no config file needed
+                        parserOptions: {
+                            requireConfigFile: false,
+                        },
                     }),
                     // Rollup does not resolve node_modules by itself – it needs a plugin
                     nodeResolve({
