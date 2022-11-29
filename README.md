@@ -1,5 +1,14 @@
 # Intro
 
+Build task for Joinbox' Drupal projects that provides reasonable defaults for:
+- [x] scripts
+- [x] styles
+- [x] images
+
+
+core.js must be injected manually!
+
+
 Re-usable [Gulp 4](https://github.com/gulpjs/gulp/tree/4.0) tasks for Joinbox projects that provide
 reasonable defaults for the following file types:
 - [x] scripts 
