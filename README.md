@@ -5,6 +5,13 @@ defaults for JavaScripts and SASS.
 
 Tasks include multiple options, the ability to emit notifications on success and source maps.
 
+
+# Installation
+
+`npm i -D @joinbox/build-task core-js regenerator-runtime``
+
+`core-js` and `regenerator-runtime` are required to inline the corresponding polyfills.
+
 # Commands
 
 
@@ -48,21 +55,33 @@ Tasks include multiple options, the ability to emit notifications on success and
 
 
 
-# Defaults
+# Complete Build Task for Projects
 
-1. Install all required modules
-    `npm i @joinbox/build-task browser-sync chokidar npm-run-all`
-2. Add the following property to your `package.json`:
+1. Install all additional modules (core-js is required to o)
+    `npm i -D chokidar-cli npm-run-all`
+2. Add the following `scripts` property to your `package.json`:
     ```
     scripts: {
-        "dev:styles":        "npx @joinbox/build-task styles -n -s src/scss -d dist/css main.scss",
-        "live:styles":       "npx @joinbox/build-task styles -c -s src/scss -d dist/css main.scss",
-        "watch:styles":      "npx chokidar \"src/scss/**/*.scss\" -c \"npm run styles",
-        "dev:scripts":       "npx @joinbox/build-task scripts -n -s src/js -d dist/js main.js",
-        "live:scripts":      "npx @joinbox/build-task scripts -m -s src/js -d dist/js main.js",
-        "watch:scripts":     "npx chokidar \"src/js/**/*.js\" -c \"npm run dev:scripts",
-        "watch:browsersync": "npx chokidar \"test/dist/**/**.*\" -c \"browsersync reload\"",
-        "browsersync":       "npx browsersync start",
-        "dev":               "npm run browsersync && npm-run-all --parallel dev:* && npm-run-all --parallel watch:*"
+        "dev:styles": "npx @joinbox/build-task styles -n -s src/scss -d dist/css main.scss",
+        "live:styles": "npx @joinbox/build-task styles -n -c -s src/scss -d dist/css main.scss",
+        "watch:styles": "npx chokidar \"src/scss/**/*.scss\" \"template-library/**/*.scss\" -c \"npm run dev:styles\"",
+        "dev:scripts": "npx @joinbox/build-task scripts -n -s src/js -d dist/js main.js",
+        "live:scripts": "npx @joinbox/build-task scripts -n -m -s src/js -d dist/js main.js",
+        "watch:scripts": "npx chokidar \"src/js/**/*.js\" \"template-library/**/*.js\" -c \"npm run dev:scripts\"",
+        "copy:fonts": "mkdir -p dist/webfonts && cp -r src/webfonts dist/webfonts",
+        "watch:fonts": "npx chokidar \"src/webfonts/**/*.*\" -c \"npm run copy:fonts\"",
+        "copy:media": "mkdir -p dist/media && cp -r src/media dist/media",
+        "watch:media": "npx chokidar \"src/media/**/*.*\" -c \"npm run copy:media\"",
+        "clean": "(rm -r dist || true)",
+        "dev": "npm-run-all clean -p dev:* watch:* -p watch:*",
+        "live": "npm-run-all clean -p copy:* live:*"
     }
     ```
+
+# Update from Earlier Versions
+
+If you update from earlier versions, make sure to 
+- remove all unnecessary NPM packages from package.json (especially `@babel/core`, `browser-sync`, `@babel/eslint-parser`, `gulp`, `postcss`)
+- remove unnecessary `scripts` from package.json
+- remove `gulpfile.js`
+- update `@joinbox/build-task` to newest version and follow this README's instructions

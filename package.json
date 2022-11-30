@@ -1,8 +1,8 @@
 {
   "name": "@joinbox/build-task",
   "version": "2.0.4",
-  "description": "Re-usable esbuild/swc and Sass based build tasks for Joinbox projects",
-  "main": "./src/main.js",
+  "description": "Re-usable esbuild/swc and Sass based build tasks for Joinbox Drupal projects",
+  "bin": "./src/cli.mjs",
   "scripts": {
     "test": "npx ava --verbose --watch --serial"
   },

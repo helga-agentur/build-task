@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Command } from 'commander';
 import buildStyles from './buildStyles.mjs';
 import buildScripts from './buildScripts.mjs';

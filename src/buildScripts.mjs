@@ -13,7 +13,7 @@ const logResult = ({ warnings, errors } = {}, showNotifications = false) => {
     if (errors.length) console.error(errors);
     if (showNotifications) {
         notifier.notify({
-            title: 'Scripts Done 💪',
+            title: 'Scripts Done 🚀',
             message: 'Built JS files',
         });
     }
