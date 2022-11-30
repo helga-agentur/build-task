@@ -60,14 +60,14 @@ Tasks include multiple options, the ability to emit notifications on success and
 Use the following setup for Drupal projects:
 
 1. Install all additional modules:
-    `npm i -D chokidar-cli npm-run-all`
+    `npm i -D chokidar-cli npm-run-all @babel/eslint-parser @joinbox/eslint-config-joinbox eslint @joinbox/stylelint-config-joinbox stylelint`
 2. Add the following `scripts` property to your `package.json`:
     ```
     scripts: {
-        "dev:styles": "npx @joinbox/build-task styles -n -s src/scss -d dist/css main.scss",
+        "dev:styles": "npm run lint:styles ; npx @joinbox/build-task styles -n -s src/scss -d dist/css main.scss",
         "live:styles": "npx @joinbox/build-task styles -n -c -s src/scss -d dist/css main.scss",
-        "watch:styles": "npx chokidar \"src/scss/**/*.scss\" \"template-library/**/*.scss\" -c \"npm run dev:styles\"",
-        "dev:scripts": "npx @joinbox/build-task scripts -n -s src/js -d dist/js main.js",
+        "watch:styles": "npx chokidar \"src/scss/**/*.scss\" \"template-library/**/*.scss\" -c \"npm run lint:styles\"",
+        "dev:scripts": "npm run lint:scripts ; npx @joinbox/build-task scripts -n -s src/js -d dist/js main.js",
         "live:scripts": "npx @joinbox/build-task scripts -n -m -s src/js -d dist/js main.js",
         "watch:scripts": "npx chokidar \"src/js/**/*.js\" \"template-library/**/*.js\" -c \"npm run dev:scripts\"",
         "copy:fonts": "mkdir -p dist/webfonts && cp -r src/webfonts dist/webfonts",
@@ -75,7 +75,9 @@ Use the following setup for Drupal projects:
         "copy:media": "mkdir -p dist/media && cp -r src/media dist/media",
         "watch:media": "npx chokidar \"src/media/**/*.*\" -c \"npm run copy:media\"",
         "clean": "(rm -r dist || true)",
-        "dev": "npm-run-all clean -p dev:* watch:* -p watch:*",
+        "lint:styles": "npx stylelint src/**/*.scss template-library/**/*.scss --config node_modules/@joinbox/stylelint-config-joinbox/index.js",
+        "lint:scripts": "npx eslint src/**/*.js template-library/**/*.js -c node_modules/@joinbox/eslint-config-joinbox/index.js",
+        "dev": "npm-run-all clean -p copy:* dev:* -p watch:*",
         "live": "npm-run-all clean -p copy:* live:*"
     }
     ```
