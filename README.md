@@ -1,92 +1,68 @@
 # Intro
 
-Build task for Joinbox' Drupal projects that provides reasonable defaults for:
-- [x] scripts
-- [x] styles
-- [x] images
+Build task for Joinbox' Drupal projects that provides command line actions running with reasonable
+defaults for JavaScripts and SASS.
+
+Tasks include multiple options, the ability to emit notifications on success and source maps.
+
+# Commands
 
 
-core.js must be injected manually!
+## Styles
+
+- Converts [SASS to CSS](https://github.com/sass/dart-sass)
+- Adds [autoprefixes](https://github.com/postcss/autoprefixer) through [postcss](https://postcss.org/)
+- Accepts [globs](https://www.npmjs.com/package/glob) for input files
+- Supports [compression](https://sass-lang.com/documentation/cli/dart-sass#style)
+- Generates source maps
+- Creates output directory if it doesn't exist
+- Displays notification on success
+
+### Command
+
+`npx @joinbox/build-task styles -n -c -s src/scss -d dist/css **/*.scss`
+
+### Options
+`npx @joinbox/build-task styles -h`
 
 
-Re-usable [Gulp 4](https://github.com/gulpjs/gulp/tree/4.0) tasks for Joinbox projects that provide
-reasonable defaults for the following file types:
-- [x] scripts 
-- [x] styles
-- [ ] images (TBD)
-- [ ] clear dist directory (TBD)
+## Scripts
 
-All tasks support:
-- BrowserSync
-- notifications
+- [Bundles JavaScript files](https://esbuild.github.io/)
+- [Compiles code to previous ES versions](https://swc.rs/)
+- Can [watch source files for changes](https://esbuild.github.io/api/#watch)
+- Accepts [globs](https://www.npmjs.com/package/glob) for input files
+- Builds for selected [browsers](https://github.com/browserslist/browserslist) and ES versions ([esbuild](https://esbuild.github.io/api/#target) and [SWC](https://swc.rs/docs/configuration/compilation#jsctarget))
+- Supports minification ([esbuild](https://esbuild.github.io/api/#minify) and [SWC](https://swc.rs/docs/configuration/minification))
+- Generates source maps
+- Embedds [core-js](https://github.com/zloirock/core-js) polyfills where needed
+- Creates output directory if it doesn't exist
+- Displays notification on success
 
-Scripts support:
-- inlining of imports/exports (via [rollup.js](https://rollupjs.org/))
-- backwards compatibility (via [Babel](https://babeljs.io/), including object properties and private class fields) 
-- minification (via [terser](https://terser.org/))
-- automatically adds core-js polyfills when needed (via `useBuildIns: 'usage'`)
-- source maps
+### Command
 
-Styles support:
-- SASS conversion to CSS (via [node-sass](https://www.npmjs.com/package/node-sass))
-- glob support for SASS imports
-- auto prefixes
-- source maps
+`npx @joinbox/build-task scripts -m -t es5 -e "ie 11" -s src/js -d dist/js **/*.js`
 
-# Usage
-
-**Important**: If a version mismatch pops up, use `--force` in `npm i`. Build task will be upgraded
-soon to not rely on that tech anymore.
-
-1. Install task and peer dependencies: `npm i -D @babel/core browser-sync @babel/eslint-parser @joinbox/build-task gulp postcss`
-1. Copy the contents of the provided [gulpfile.js](gulpfile.js) to your project
-1. Change import path: `{ buildJavaScript, buildStyles } = require('@joinbox/build-task')`
-1. Modify paths where needed
-1. Run `npx gulp` (for dev task) and `npx gulp prod`
+### Options
+`npx @joinbox/build-task scripts -h`
 
 
-# Tests
 
-- Run `npm test``
-- If you run a test manually, make sure to use the `--serial` option as we are relying on the file
-system for our tests
+# Defaults
 
-
-# Migrate from v1.x to v2.x
-
-Main change is the update from Node Sass to Dart Sass which comes with a breaking change for 
-SASS files: One must use `math.div` instead of `/`. There's an [auto migrate plugin](https://sass-lang.com/documentation/breaking-changes/slash-div).
-
-
-# Migrate from v0.x to v1.x
-
-## gulpfile.js
-* Copy `gulpfile` from [here](ttps://github.com/joinbox/build-task/blob/HEAD/gulpfile.js) or another project
-* Update `proxy-url`
-
-## package.json:
-* Change `@joinbox/build-task` to newest version 
-* Remove `node-sass` and all other dependencies of the previous build task
-* Remove `@babel/polyfill`, `regenerator-runtime/runtime`
-* Make sure you **NOT** use `core-js` v2; use v3 (which should not be necessary, as it is compiled
-into your dist files by the build task)
-* Replace `scripts` with
+1. Install all required modules
+    `npm i @joinbox/build-task browser-sync chokidar npm-run-all`
+2. Add the following property to your `package.json`:
     ```
-    "scripts": {
-        "start": "npx gulp",
-        "build": "npx gulp prod"
-    },
+    scripts: {
+        "dev:styles":        "npx @joinbox/build-task styles -n -s src/scss -d dist/css main.scss",
+        "live:styles":       "npx @joinbox/build-task styles -c -s src/scss -d dist/css main.scss",
+        "watch:styles":      "npx chokidar \"src/scss/**/*.scss\" -c \"npm run styles",
+        "dev:scripts":       "npx @joinbox/build-task scripts -n -s src/js -d dist/js main.js",
+        "live:scripts":      "npx @joinbox/build-task scripts -m -s src/js -d dist/js main.js",
+        "watch:scripts":     "npx chokidar \"src/js/**/*.js\" -c \"npm run dev:scripts",
+        "watch:browsersync": "npx chokidar \"test/dist/**/**.*\" -c \"browsersync reload\"",
+        "browsersync":       "npx browsersync start",
+        "dev":               "npm run browsersync && npm-run-all --parallel dev:* && npm-run-all --parallel watch:*"
+    }
     ```
-
-## main.js
-- Remove `@babel/polyfill`, `regenerator-runtime/runtime` and `core-js/stable`. They are replaced
-by the task's `useBuiltIns: true` which compiles `core-js` into the dist files where needed
-
-## console
-* Install all dependencies that are required in your current `gulpfile.js`
-    ```
-    npm i --save-dev postcss del imagemin
-    ````
-* Delete current modules: `rm -r node_modules`
-* Install modules: `npm i`
-* `npm start`

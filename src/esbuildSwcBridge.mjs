@@ -1,16 +1,22 @@
 // Inspired by https://www.npmjs.com/package/esbuild-plugin-swc. Not using the original plugin
 // because
-// - source code (TypeScript) is not open sourced
-// - does not handle node Paths (not starting with ./) correctly
+// - source code (TypeScript) was not open sourced at time of coding
+// - does not handle node_module Paths (not starting with ./) correctly
 
 import { resolve as resolvePath } from 'path';
 import resolveNodeModule from 'resolve';
-import { readFile } from 'fs';
+import { readFileSync } from 'fs';
+import { promisify } from 'util';
 import { transform } from '@swc/core';
 import deepmerge from 'deepmerge';
 
 const fileFilter = /\.m?js$/;
+const promisifiedResolveNodeModule = promisify(resolveNodeModule);
 
+/**
+ * Use a simple script to build scripts because esbuild does not yet support the use of plugins
+ * via console (see https://github.com/evanw/esbuild/issues/884)
+ */
 export default (options = {}) => ({
     name: 'esbuild-swc-bridge',
     setup(build) {
@@ -18,23 +24,13 @@ export default (options = {}) => ({
             // Resolve node_modules
             const fullPath = args.path.startsWith('.')
                 ? resolvePath(args.resolveDir, args.path)
-                : await new Promise((resolve, reject) => {
-                    resolveNodeModule(args.path, (err, data) => {
-                        if (err) reject(err);
-                        else resolve(data);
-                    });
-                });
+                : await promisifiedResolveNodeModule(args.path);
             return {
                 path: fullPath,
             };
         });
         build.onLoad({ filter: fileFilter }, async(args) => {
-            const code = await new Promise((resolve, reject) => {
-                readFile(args.path, 'utf-8', (err, data) => {
-                    if (err) reject(err);
-                    else (resolve(data));
-                });
-            });
+            const code = readFileSync(args.path, 'utf-8');
             const initialOptions = {
                 jsc: {
                     parser: {

@@ -4,8 +4,7 @@
   "description": "Re-usable esbuild/swc and Sass based build tasks for Joinbox projects",
   "main": "./src/main.js",
   "scripts": {
-    "test": "npx ava --verbose --watch --serial",
-    "sass": "sass -c test/src/sass/main.scss test/src/sass/main2.scss"
+    "test": "npx ava --verbose --watch --serial"
   },
   "ava": {
     "files": [
@@ -18,20 +17,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joinbox/gulp-tasks.git"
+    "url": "git+https://github.com/joinbox/build-task.git"
   },
   "author": "Felix Steiner",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/joinbox/gulp-tasks/issues"
+    "url": "https://github.com/joinbox/build-task/issues"
   },
-  "homepage": "https://github.com/joinbox/gulp-tasks#readme",
+  "homepage": "https://github.com/joinbox/build-task#readme",
   "dependencies": {
     "@swc/core": "^1.3.20",
+    "autoprefixer": "^10.4.13",
     "commander": "^9.4.1",
+    "core-js": "^3.26.1",
     "deepmerge": "^4.2.2",
     "esbuild": "^0.15.16",
     "glob": "^8.0.3",
+    "node-notifier": "^10.0.1",
+    "postcss": "^8.4.19",
     "resolve": "^1.22.1",
     "sass": "^1.56.1"
   },

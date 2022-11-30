@@ -24,7 +24,6 @@ test('doesn\'t throw with defaults', async(t) => {
 
 test('works with multiple entry points', async(t) => {
     clear();
-    console.log('src', sourceFolder);
     await buildStyles({
         sourceFolder,
         sourceFiles: [
@@ -43,7 +42,6 @@ test('works with multiple entry points', async(t) => {
 
 test('works with globs', async(t) => {
     clear();
-    console.log('src', sourceFolder);
     await buildStyles({
         sourceFolder,
         sourceFiles: ['main*.scss'],
@@ -57,7 +55,6 @@ test('works with globs', async(t) => {
 
 test('works with the compress option', async(t) => {
     clear();
-    console.log('src', sourceFolder);
     await buildStyles({
         sourceFolder,
         sourceFiles: ['main*.scss'],
@@ -68,5 +65,18 @@ test('works with the compress option', async(t) => {
     t.deepEqual(files, ['main.css', 'main.css.map', 'main2.css', 'main2.css.map']);
     const content = readFileSync(join(destinationFolder, 'main.css'), 'utf8');
     t.is(content.split('\n').length, 1);
+    clear();
+});
+
+test('adds prefixes', async(t) => {
+    clear();
+    await buildStyles({
+        sourceFolder,
+        sourceFiles: ['main.scss'],
+        destinationFolder,
+        compress: true,
+    });
+    const content = readFileSync(join(destinationFolder, 'main.css'), 'utf8');
+    t.is(content.includes('-webkit-appearance'), true);
     clear();
 });
