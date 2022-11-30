@@ -8,7 +8,7 @@ Tasks include multiple options, the ability to emit notifications on success and
 
 # Installation
 
-`npm i -D @joinbox/build-task core-js regenerator-runtime``
+`npm i -D @joinbox/build-task core-js regenerator-runtime`
 
 `core-js` and `regenerator-runtime` are required to inline the corresponding polyfills.
 
@@ -57,7 +57,9 @@ Tasks include multiple options, the ability to emit notifications on success and
 
 # Complete Build Task for Projects
 
-1. Install all additional modules (core-js is required to o)
+Use the following setup for Drupal projects:
+
+1. Install all additional modules:
     `npm i -D chokidar-cli npm-run-all`
 2. Add the following `scripts` property to your `package.json`:
     ```
