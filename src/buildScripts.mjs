@@ -1,4 +1,4 @@
-import { join, relative } from 'path';
+import { join } from 'path';
 import { mkdirSync } from 'fs';
 import notifier from 'node-notifier';
 import glob from 'glob';

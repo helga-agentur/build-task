@@ -66,10 +66,10 @@ Use the following setup for Drupal projects:
     scripts: {
         "dev:styles": "npm run lint:styles ; npx @joinbox/build-task styles -n -s src/scss -d dist/css main.scss",
         "live:styles": "npx @joinbox/build-task styles -n -c -s src/scss -d dist/css main.scss",
-        "watch:styles": "npx chokidar \"src/scss/**/*.scss\" \"template-library/**/*.scss\" -c \"npm run lint:styles\"",
+        "watch:styles": "npx chokidar \"src/scss/**/*.scss\" \"template-library/**/*.scss\" -c \"npm run dev:styles\"",
         "dev:scripts": "npm run lint:scripts ; npx @joinbox/build-task scripts -n -s src/js -d dist/js main.js",
         "live:scripts": "npx @joinbox/build-task scripts -n -m -s src/js -d dist/js main.js",
-        "watch:scripts": "npx chokidar \"src/js/**/*.js\" \"template-library/**/*.js\" -c \"npm run dev:scripts\"",
+        "watch:scripts": "npx chokidar \"src/js/**/*.js\" \"template-library/**/*.js\" -c \"npm run lint:scripts\" & npx @joinbox/build-task scripts -n -w -s src/js -d dist/js main.js",
         "copy:fonts": "mkdir -p dist/webfonts && cp -r src/webfonts dist/webfonts",
         "watch:fonts": "npx chokidar \"src/webfonts/**/*.*\" -c \"npm run copy:fonts\"",
         "copy:media": "mkdir -p dist/media && cp -r src/media dist/media",
