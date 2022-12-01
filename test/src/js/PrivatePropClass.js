@@ -2,7 +2,12 @@ export default class {
 
     #privateField = 5;
 
-    getPrivateField() {
+    constructor() {
+        this.#privateMethod();
+    }
+
+    async #privateMethod() {
+        await new Promise();
         return this.#privateField;
     }
 

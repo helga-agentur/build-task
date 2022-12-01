@@ -1,72 +1,82 @@
-import del from 'del';
 import test from 'ava';
 import { dirname, join } from 'path';
 import { readdirSync, readFileSync } from 'fs';
+import { deleteSync } from 'del';
 import { fileURLToPath } from 'url';
-import buildStyles from './buildStyles.js';
+import buildStyles from './buildStyles.mjs';
 
 const basePath = dirname(fileURLToPath(new URL(import.meta.url)));
-const destination = join(basePath, '../test/dist/css');
-const source = join(basePath, '../test/src/sass');
-const clear = () => del(join(basePath, '../test/dist'));
+const destinationFolder = join(basePath, '../test/dist/css');
+const sourceFolder = join(basePath, '../test/src/sass');
+const clear = () => deleteSync(join(basePath, '../test/dist'));
 
 
-test('builds sass file', async(t) => {
-    await clear();
-    await buildStyles({
-        sourcePath: join(source, 'main.scss'),
-        destinationPath: destination,
-        // This config is needed for a -webkit prefix that we're testing for below
-        supportedBrowsers: ['>1%', 'not dead', 'IE 11'],
-    });
-    const files = readdirSync(destination);
-    const content = readFileSync(join(destination, 'main.css'), 'utf8');
-
-    t.deepEqual(files, ['main.css', 'main.css.map']);
-    // converted sass variables
-    t.is(content.includes('background-color: #333'), true);
-    // created selectors
-    t.is(content.includes('.component-inner'), true);
-    // prefixer works
-    t.is(content.includes('-webkit-appearance'), true);
-    await clear();
+test('doesn\'t throw with defaults', async(t) => {
+    clear();
+    try {
+        await buildStyles();
+        t.pass();
+    } catch (err) {
+        t.fail(`Error with default arguments: ${err.message}`);
+    }
+    clear();
 });
 
 test('works with multiple entry points', async(t) => {
-    await clear();
+    clear();
     await buildStyles({
-        sourcePath: [
-            join(source, 'main.scss'),
-            join(source, 'main2.scss'),
+        sourceFolder,
+        sourceFiles: [
+            'main.scss',
+            'main2.scss',
         ],
-        destinationPath: destination,
+        destinationFolder,
     });
-    const files = readdirSync(destination);
+    const files = readdirSync(destinationFolder);
     t.deepEqual(files, ['main.css', 'main.css.map', 'main2.css', 'main2.css.map']);
-    await clear();
+    // Make sure content is not minified
+    const content = readFileSync(join(destinationFolder, 'main.css'), 'utf8');
+    t.is(content.split('\n').length > 1, true);
+    clear();
 });
 
-test('works with minify', async(t) => {
-    await clear();
+test('works with globs', async(t) => {
+    clear();
     await buildStyles({
-        sourcePath: join(source, 'main.scss'),
-        destinationPath: destination,
-        minify: true,
+        sourceFolder,
+        sourceFiles: ['main*.scss'],
+        destinationFolder,
     });
-    const content = readFileSync(join(destination, 'main.css'), 'utf8');
-    t.is(content.split(/\n/g).length < 5, true);
-    await clear();
+    const files = readdirSync(destinationFolder);
+    t.deepEqual(files, ['main.css', 'main.css.map', 'main2.css', 'main2.css.map']);
+    const content = readFileSync(join(destinationFolder, 'main.css'), 'utf8');
+    clear();
 });
 
-test('uses dart-sass with new divisions', async(t) => {
-    await clear();
+test('works with the compress option', async(t) => {
+    clear();
     await buildStyles({
-        sourcePath: join(source, 'main.scss'),
-        destinationPath: destination,
-        minify: true,
+        sourceFolder,
+        sourceFiles: ['main*.scss'],
+        destinationFolder,
+        compress: true,
     });
-    const content = readFileSync(join(destination, 'main.css'), 'utf8');
-    t.is(content.includes('24px'), true);
-    t.is(content.includes('36px/2'), true);
-    await clear();
+    const files = readdirSync(destinationFolder);
+    t.deepEqual(files, ['main.css', 'main.css.map', 'main2.css', 'main2.css.map']);
+    const content = readFileSync(join(destinationFolder, 'main.css'), 'utf8');
+    t.is(content.split('\n').length, 1);
+    clear();
+});
+
+test('adds prefixes', async(t) => {
+    clear();
+    await buildStyles({
+        sourceFolder,
+        sourceFiles: ['main.scss'],
+        destinationFolder,
+        compress: true,
+    });
+    const content = readFileSync(join(destinationFolder, 'main.css'), 'utf8');
+    t.is(content.includes('-webkit-appearance'), true);
+    clear();
 });
