@@ -30,6 +30,9 @@ Tasks include multiple options, the ability to emit notifications on success and
 `npx @joinbox/build-task styles -n -c -s src/scss -d dist/css **/*.scss`
 
 ### Options
+
+To see all available options, call the styles build task with the help option (`-h` or `--help`):
+
 `npx @joinbox/build-task styles -h`
 
 
@@ -51,6 +54,9 @@ Tasks include multiple options, the ability to emit notifications on success and
 `npx @joinbox/build-task scripts -m -t es5 -e "ie 11" -s src/js -d dist/js **/*.js`
 
 ### Options
+
+To see all available options, call the scripts build task with the help option (`-h` or `--help`):
+
 `npx @joinbox/build-task scripts -h`
 
 
