@@ -69,7 +69,7 @@ Use the following setup for Drupal projects:
     `npm i -D chokidar-cli npm-run-all @babel/eslint-parser @joinbox/eslint-config-joinbox eslint @joinbox/stylelint-config-joinbox stylelint`
 2. Add the following `scripts` property to your `package.json`:
     ```
-    scripts: {
+    "scripts": {
         "dev:styles": "npm run lint:styles ; npx @joinbox/build-task styles -n -s src/scss -d dist/css main.scss",
         "live:styles": "npx @joinbox/build-task styles -n -c -s src/scss -d dist/css main.scss",
         "watch:styles": "npx chokidar \"src/scss/**/*.scss\" \"template-library/**/*.scss\" -c \"npm run dev:styles\"",
@@ -81,7 +81,7 @@ Use the following setup for Drupal projects:
         "copy:media": "mkdir -p dist/media && cp -r src/media dist/media",
         "watch:media": "npx chokidar \"src/media/**/*.*\" -c \"npm run copy:media\"",
         "clean": "(rm -r dist || true)",
-        "lint:styles": "npx stylelint src/**/*.scss template-library/**/*.scss --config node_modules/@joinbox/stylelint-config-joinbox/index.js",
+        "lint:styles": "npx stylelint src/**/*.scss template-library/**/*.scss --config .stylelintrc",
         "lint:scripts": "npx eslint src/**/*.js template-library/**/*.js -c node_modules/@joinbox/eslint-config-joinbox/index.js",
         "dev": "npm-run-all clean -p copy:* dev:* -p watch:*",
         "live": "npm-run-all clean -p copy:* live:*"
