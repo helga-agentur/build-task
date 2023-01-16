@@ -33,7 +33,7 @@ const buildStyles = async({
         const cssFileName = basename(file).replace(/\.scss$/, '.css');
         const destinationFilePath = join(destinationFolder, cssFileName);
 
-        const sassOptions = { sourceMap: true, style: (compress ? 'compressed' : 'expanded') };
+        const sassOptions = { sourceMap: true, sourceMapIncludeSources: true, style: (compress ? 'compressed' : 'expanded') };
         const sassResult = sass.compile(file, sassOptions);
 
         // prev: Pass a previous sourceMap object, see docs for SourceMapOptions at
@@ -45,10 +45,12 @@ const buildStyles = async({
         const postCSSOptions = {
             from: file,
             to: destinationFilePath,
-            map: { prev: sassResult.sourceMap },
+            map: { prev: sassResult.sourceMap, inline: false, annotation: true },
         };
         const postCSSResult = await postcss([autoprefixer]).process(sassResult.css, postCSSOptions);
         postCSSResult.warnings().forEach((warning) => console.warn(warning.toString()));
+
+        sassResult.sourceMap.sources = [file];
 
         return {
             css: postCSSResult.css,
