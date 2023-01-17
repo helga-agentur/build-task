@@ -19,7 +19,8 @@ Tasks include multiple options, the ability to emit notifications on success and
 
 - Converts [SASS to CSS](https://github.com/sass/dart-sass)
 - Adds [autoprefixes](https://github.com/postcss/autoprefixer) through [postcss](https://postcss.org/)
-- Accepts [globs](https://www.npmjs.com/package/glob) for input files
+- Accepts [globs](https://www.npmjs.com/package/glob) for input files; use quotation marks around
+paths in this case
 - Supports [compression](https://sass-lang.com/documentation/cli/dart-sass#style)
 - Generates source maps
 - Creates output directory if it doesn't exist
@@ -27,7 +28,10 @@ Tasks include multiple options, the ability to emit notifications on success and
 
 ### Command
 
-`npx @joinbox/build-task styles -n -c -s src/scss -d dist/css **/*.scss`
+`npx @joinbox/build-task styles -n -c -s src/scss -d dist/css "**/*.scss"`
+
+Make sure to use quotation marks around paths if you use globs (in order for them to be resolved
+through JS instead of CLI)
 
 ### Options
 
@@ -41,7 +45,8 @@ To see all available options, call the styles build task with the help option (`
 - [Bundles JavaScript files](https://esbuild.github.io/)
 - [Compiles code to previous ES versions](https://swc.rs/)
 - Can [watch source files for changes](https://esbuild.github.io/api/#watch)
-- Accepts [globs](https://www.npmjs.com/package/glob) for input files
+- Accepts [globs](https://www.npmjs.com/package/glob) for input files; use quotation marks around
+paths in this case
 - Builds for selected [browsers](https://github.com/browserslist/browserslist) and ES versions ([esbuild](https://esbuild.github.io/api/#target) and [SWC](https://swc.rs/docs/configuration/compilation#jsctarget))
 - Supports minification ([esbuild](https://esbuild.github.io/api/#minify) and [SWC](https://swc.rs/docs/configuration/minification))
 - Generates source maps
@@ -51,7 +56,10 @@ To see all available options, call the styles build task with the help option (`
 
 ### Command
 
-`npx @joinbox/build-task scripts -m -t es5 -e "ie 11" -s src/js -d dist/js **/*.js`
+`npx @joinbox/build-task scripts -m -t es5 -e "ie 11" -s src/js -d dist/js "**/*.js"`
+
+Make sure to use quotation marks around paths if you use globs (in order for them to be resolved
+through JS instead of CLI)
 
 ### Options
 

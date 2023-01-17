@@ -12,7 +12,8 @@ program
 
 program
     .command('styles')
-    .argument('<source-files...>', 'files to process, divided by space; can contain globs')
+    // Quotation marks around argument are needed for globs to be resolved through JS (and therefore platform-independent)
+    .argument('<source-files...>', 'files to process, divided by space; can contain globs, but they **must** be wrapped in quotation marks')
     .option('-c, --compress', 'compress the output (see SASS docs); defaults to false')
     .option('-s, --source-folder <path>', 'path to source folder; all source files must be placed relatively to this path; defaults to \'.\'')
     .option('-d, --destination-folder <path>', 'path to destination folder; all output files will be placed within this folder; defaults to \'.\'')
@@ -28,7 +29,8 @@ program
 
 program
     .command('scripts')
-    .argument('<source-files...>', 'files to process, divided by space; can contain globs')
+    // Quotation marks around argument are needed for globs to be resolved through JS (and therefore platform-independent)
+    .argument('<source-files...>', 'files to process, divided by space; can contain globs, but they **must** be wrapped in quotation marks')
     .option('-m, --minify', 'minify the output; defaults to false')
     .option('-s, --source-folder <path>', 'path to source folder; all source files must be placed relatively to this path; defaults to \'.\'')
     .option('-d, --destination-folder <path>', 'path to destination folder; all output files will be placed within this folder; defaults to \'.\'')

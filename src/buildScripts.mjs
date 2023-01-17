@@ -18,7 +18,13 @@ const logResult = ({ warnings, errors } = {}, showNotifications = false) => {
         });
     }
 };
-
+/**
+ * Use our own script (instead of relying only on console commands) because the console does not
+ * support SWC bridges (needed to make it work with esbuild as SWC's build feature is not yet
+ * stable).
+ * Use our own glob solution as NPM handles globs differently on different operating systems
+ * (see https://medium.com/@jakubsynowiec/you-should-always-quote-your-globs-in-npm-scripts-621887a2a784)
+ */
 const buildScripts = async({
     destinationFolder = '.',
     sourceFolder = '.',
@@ -63,6 +69,7 @@ const buildScripts = async({
         target, // Add this to minify correctly for ES5, if ES5 is passed
         minify,
     });
+
     logResult(initialResult, showNotifications);
 
 };

@@ -42,7 +42,7 @@ test('builds JavaScript files', async(t) => {
     // await clear();
 });
 
-test('works with globs', async(t) => {
+test('works with multiple files', async(t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main.js', 'main2.js'],
@@ -54,7 +54,7 @@ test('works with globs', async(t) => {
     await clear();
 });
 
-test('works with multiple files', async(t) => {
+test('works with globs', async(t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main*.js'],
