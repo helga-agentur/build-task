@@ -39,6 +39,7 @@
     "sass": "^1.56.1"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
     "@joinbox/eslint-config-joinbox": "^1.0.10",
     "ava": "^5.1.0",
     "del": "^7.0.0"
