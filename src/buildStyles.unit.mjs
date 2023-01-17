@@ -64,7 +64,7 @@ test('works with the compress option', async(t) => {
     const files = readdirSync(destinationFolder);
     t.deepEqual(files, ['main.css', 'main.css.map', 'main2.css', 'main2.css.map']);
     const content = readFileSync(join(destinationFolder, 'main.css'), 'utf8');
-    t.is(content.split('\n').length, 2); //2 Lines: Minified CSS + Source Map URL Comment
+    t.is(content.split('\n').length, 2); // 2 Lines: Minified CSS + Source Map URL Comment
     clear();
 });
 

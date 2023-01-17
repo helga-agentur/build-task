@@ -50,6 +50,7 @@ const buildStyles = async({
         const postCSSResult = await postcss([autoprefixer]).process(sassResult.css, postCSSOptions);
         postCSSResult.warnings().forEach((warning) => console.warn(warning.toString()));
 
+        // Sass sets an absolute path as source in the source map, so we overwrite it with a relative one
         sassResult.sourceMap.sources = [file];
 
         return {
