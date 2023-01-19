@@ -29,7 +29,7 @@ paths in this case
 
 ### Command
 
-`npx @joinbox/build-task styles -n -c -s src/scss -d dist/css -w "**/*.js" "**/*.scss"`
+`npx @joinbox/build-task styles -n -c -s src/scss -d dist/css -w "**/*.scss, other-path/*.scss" "**/*.scss"`
 
 Make sure to use quotation marks around paths if you use globs (in order for them to be resolved
 through JS instead of CLI)
@@ -58,7 +58,7 @@ paths in this case
 
 ### Command
 
-`npx @joinbox/build-task scripts -m -t es5 -e "ie 11" -s src/js -d dist/js -w "**/*.js" "**/*.js"`
+`npx @joinbox/build-task scripts -m -t es5 -e "ie 11" -s src/js -d dist/js -w "**/*.js, other-path/*.js" "**/*.js"`
 
 Make sure to use quotation marks around paths if you use globs (in order for them to be resolved
 through JS instead of CLI)
