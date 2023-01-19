@@ -1,6 +1,10 @@
 {
   "extends": "@joinbox/joinbox",
   "rules": {
-      "no-console": "off",
+      "no-console": "off"
   },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+      "requireConfigFile": false
+  }
 }

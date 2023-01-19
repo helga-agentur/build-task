@@ -1,7 +1,7 @@
 import test from 'ava';
 import { deleteAsync } from 'del';
 import { dirname, join } from 'path';
-import { readdirSync, readFileSync, mkdirSync } from 'fs';
+import { readdirSync, readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import buildScripts from './buildScripts.mjs';
 
@@ -42,7 +42,7 @@ test('builds JavaScript files', async(t) => {
     // await clear();
 });
 
-test('works with globs', async(t) => {
+test('works with multiple files', async(t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main.js', 'main2.js'],
@@ -54,7 +54,7 @@ test('works with globs', async(t) => {
     await clear();
 });
 
-test('works with multiple files', async(t) => {
+test('works with globs', async(t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main*.js'],
