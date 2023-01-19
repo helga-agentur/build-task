@@ -3,8 +3,10 @@ import { writeFileSync, mkdirSync } from 'fs';
 import autoprefixer from 'autoprefixer';
 import postcss from 'postcss';
 import notifier from 'node-notifier';
-import glob from 'glob';
 import sass from 'sass';
+import resolveGlobs from './resolveGlobs.mjs';
+import watchFiles from './watchFiles.mjs';
+
 
 /**
  * Use a simple script to build styles as the CLI version of SASS does e.g.
@@ -21,11 +23,7 @@ const buildStyles = async({
     showNotifications = false,
 } = {}) => {
 
-    // De-glob files
-    const files = sourceFiles
-        .map((file) => join(sourceFolder, file))
-        .map((fileWithPath) => glob.sync(fileWithPath))
-        .flat();
+    const files = resolveGlobs(sourceFiles, sourceFolder);
 
     // Process files
     const parsedCSSPromises = files.map(async(file) => {
@@ -41,7 +39,6 @@ const buildStyles = async({
         // https://github.com/postcss/postcss/issues/222#issuecomment-318136962
         // If from or to are not provided, warning will be shown because sourceMaps cannot be
         // generated correctly (as they contain the css file's name)
-        // TBD (get some experience first): We might also handle PostCSS via bash/console
         const postCSSOptions = {
             from: file,
             to: destinationFilePath,
@@ -84,4 +81,17 @@ const buildStyles = async({
 
 };
 
-export default buildStyles;
+
+const main = async({ watch = [], ...args } = {}) => {
+
+    // Run initially
+    await buildStyles(args);
+
+    // If files to watch are provided, run on every change
+    if (watch.length) {
+        watchFiles(watch, () => buildStyles(args));
+    }
+
+};
+
+export default main;

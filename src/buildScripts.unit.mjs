@@ -1,7 +1,7 @@
 import test from 'ava';
 import { deleteAsync } from 'del';
 import { dirname, join } from 'path';
-import { readdirSync, readFileSync, mkdirSync } from 'fs';
+import { readdirSync, readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import buildScripts from './buildScripts.mjs';
 

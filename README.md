@@ -25,10 +25,11 @@ paths in this case
 - Generates source maps
 - Creates output directory if it doesn't exist
 - Displays notification on success
+- Watches files
 
 ### Command
 
-`npx @joinbox/build-task styles -n -c -s src/scss -d dist/css "**/*.scss"`
+`npx @joinbox/build-task styles -n -c -s src/scss -d dist/css -w "**/*.scss, other-path/*.scss" "**/*.scss"`
 
 Make sure to use quotation marks around paths if you use globs (in order for them to be resolved
 through JS instead of CLI)
@@ -53,10 +54,11 @@ paths in this case
 - Embedds [core-js](https://github.com/zloirock/core-js) polyfills where needed
 - Creates output directory if it doesn't exist
 - Displays notification on success
+- Watches files
 
 ### Command
 
-`npx @joinbox/build-task scripts -m -t es5 -e "ie 11" -s src/js -d dist/js "**/*.js"`
+`npx @joinbox/build-task scripts -m -t es5 -e "ie 11" -s src/js -d dist/js -w "**/*.js, other-path/*.js" "**/*.js"`
 
 Make sure to use quotation marks around paths if you use globs (in order for them to be resolved
 through JS instead of CLI)
@@ -78,12 +80,10 @@ Use the following setup for Drupal projects:
 2. Add the following `scripts` property to your `package.json`:
     ```
     scripts: {
-        "dev:styles": "npm run lint:styles ; npx @joinbox/build-task styles -n -s src/scss -d dist/css main.scss",
+        "dev:styles": "npm run lint:styles ; npx @joinbox/build-task styles -n -s src/scss -d dist/css -w \"src/scss/**/*.scss, template-library/**/*.scss\" main.scss",
         "live:styles": "npx @joinbox/build-task styles -n -c -s src/scss -d dist/css main.scss",
-        "watch:styles": "npx chokidar \"src/scss/**/*.scss\" \"template-library/**/*.scss\" -c \"npm run dev:styles\"",
-        "dev:scripts": "npm run lint:scripts ; npx @joinbox/build-task scripts -n -s src/js -d dist/js main.js",
+        "dev:scripts": "npm run lint:scripts ; npx @joinbox/build-task scripts -n -s src/js -d dist/js -w \"src/js/**/*.js, template-library/**/*.js\" main.js",
         "live:scripts": "npx @joinbox/build-task scripts -n -m -s src/js -d dist/js main.js",
-        "watch:scripts": "npx chokidar \"src/js/**/*.js\" \"template-library/**/*.js\" -c \"npm run lint:scripts\" & npx @joinbox/build-task scripts -n -w -s src/js -d dist/js main.js",
         "copy:fonts": "mkdir -p dist/webfonts && cp -r src/webfonts dist/webfonts",
         "watch:fonts": "npx chokidar \"src/webfonts/**/*.*\" -c \"npm run copy:fonts\"",
         "copy:media": "mkdir -p dist/media && cp -r src/media dist/media",
@@ -91,7 +91,7 @@ Use the following setup for Drupal projects:
         "clean": "(rm -r dist || true)",
         "lint:styles": "npx stylelint src/**/*.scss template-library/**/*.scss --config node_modules/@joinbox/stylelint-config-joinbox/index.js",
         "lint:scripts": "npx eslint src/**/*.js template-library/**/*.js -c node_modules/@joinbox/eslint-config-joinbox/index.js",
-        "dev": "npm-run-all clean -p copy:* dev:* -p watch:*",
+        "dev": "npm-run-all clean -p copy:* dev:*",
         "live": "npm-run-all clean -p copy:* live:*"
     }
     ```
