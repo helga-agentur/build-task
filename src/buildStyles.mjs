@@ -74,7 +74,6 @@ const buildStyles = async({
         title: 'Styles Done 💄',
         message: `Built ${files.length} CSS files (total size: ${totalSizeInKB}KB)`,
     });
-
     // Also log success message if notifications are not enabled
     console.log(`${notificationOptions.title}: ${notificationOptions.message}`);
     if (showNotifications) notifier.notify(notificationOptions);
