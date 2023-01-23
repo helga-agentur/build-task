@@ -91,7 +91,7 @@ Use the following setup for Drupal projects:
         "clean": "(rm -r dist || true)",
         "lint:styles": "npx stylelint src/**/*.scss template-library/**/*.scss --config node_modules/@joinbox/stylelint-config-joinbox/index.js",
         "lint:scripts": "npx eslint src/**/*.js template-library/**/*.js -c node_modules/@joinbox/eslint-config-joinbox/index.js",
-        "dev": "npm-run-all clean -p copy:* dev:*",
+        "dev": "npm-run-all clean -p copy:* dev:* watch:*",
         "live": "npm-run-all clean -p copy:* live:*"
     }
     ```

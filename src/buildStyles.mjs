@@ -68,16 +68,16 @@ const buildStyles = async({
         writeFileSync(`${fileInfo.destinationFilePath}.map`, JSON.stringify(fileInfo.sourceMap));
     });
 
+    const totalSize = parsedCSSInfo.reduce((sum, fileInfo) => sum + fileInfo.css.length, 0);
+    const totalSizeInKB = Math.ceil(totalSize / 1000);
+    const notificationOptions = ({
+        title: 'Styles Done 💄',
+        message: `Built ${files.length} CSS files (total size: ${totalSizeInKB}KB)`,
+    });
 
-    // Display notification
-    if (showNotifications) {
-        const totalSize = parsedCSSInfo.reduce((sum, fileInfo) => sum + fileInfo.css.length, 0);
-        const totalSizeInKB = Math.ceil(totalSize / 1000);
-        notifier.notify({
-            title: 'Styles Done 💄',
-            message: `Built ${files.length} CSS files (total size: ${totalSizeInKB}KB)`,
-        });
-    }
+    // Also log success message if notifications are not enabled
+    console.log(`${notificationOptions.title}: ${notificationOptions.message}`);
+    if (showNotifications) notifier.notify(notificationOptions);
 
 };
 

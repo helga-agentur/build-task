@@ -8,15 +8,19 @@ import watchFiles from './watchFiles.mjs';
 /**
  * Central handler to log results on initial and subsequent (watch) builds
  */
-const logResult = ({ warnings, errors } = {}, showNotifications = false) => {
+const logResult = ({ warnings, errors } = {}, numberOfFiles = 0, showNotifications = false) => {
+    // esbuildContext.rebuild's return value (result) contains an ouputFiles property which is
+    // undefined; until this changes, we cannot really display more stats than the original
+    // amout of entry files passed in.
     if (warnings.length) console.warn(warnings);
     if (errors.length) console.error(errors);
-    if (showNotifications) {
-        notifier.notify({
-            title: 'Scripts Done 🚀',
-            message: 'Built JS files',
-        });
-    }
+    const notificationOptions = {
+        title: 'Scripts Done 🚀',
+        message: `Built ${numberOfFiles} JS files`,
+    };
+    // Also log success message if notifications are not enabled
+    console.log(`${notificationOptions.title}: ${notificationOptions.message}`);
+    if (showNotifications) notifier.notify(notificationOptions);
 };
 
 
@@ -64,7 +68,7 @@ const buildScripts = async({
     });
 
     const result = await esbuildContext.rebuild();
-    logResult(result, showNotifications);
+    logResult(result, sourceFilesWithPath.length, showNotifications);
 
     if (!watch.length) {
         // If we don't explicitly dispose esbuild's context, the script will not finish; therefore
@@ -73,7 +77,7 @@ const buildScripts = async({
     } else {
         watchFiles(watch, async() => {
             const rebuildResult = await esbuildContext.rebuild();
-            logResult(rebuildResult, showNotifications);
+            logResult(rebuildResult, sourceFilesWithPath.length, showNotifications);
         });
     }
 
