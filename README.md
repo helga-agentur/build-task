@@ -79,18 +79,18 @@ Use the following setup for Drupal projects:
     `npm i -D chokidar-cli npm-run-all @babel/eslint-parser @joinbox/eslint-config-joinbox eslint @joinbox/stylelint-config-joinbox stylelint`
 2. Add the following `scripts` property to your `package.json`:
     ```
-    scripts: {
+    "scripts": {
         "dev:styles": "npm run lint:styles ; npx @joinbox/build-task styles -n -s src/scss -d dist/css -w \"src/scss/**/*.scss, template-library/**/*.scss\" main.scss",
         "live:styles": "npx @joinbox/build-task styles -n -c -s src/scss -d dist/css main.scss",
         "dev:scripts": "npm run lint:scripts ; npx @joinbox/build-task scripts -n -s src/js -d dist/js -w \"src/js/**/*.js, template-library/**/*.js\" main.js",
         "live:scripts": "npx @joinbox/build-task scripts -n -m -s src/js -d dist/js main.js",
-        "copy:fonts": "mkdir -p dist/webfonts && cp -r src/webfonts dist/webfonts",
+        "copy:fonts": "mkdir -p dist/webfonts && cp -r src/webfonts dist",
         "watch:fonts": "npx chokidar \"src/webfonts/**/*.*\" -c \"npm run copy:fonts\"",
-        "copy:media": "mkdir -p dist/media && cp -r src/media dist/media",
+        "copy:media": "mkdir -p dist/media && cp -r src/media dist",
         "watch:media": "npx chokidar \"src/media/**/*.*\" -c \"npm run copy:media\"",
         "clean": "(rm -r dist || true)",
-        "lint:styles": "npx stylelint src/**/*.scss template-library/**/*.scss --config .stylelintrc",
-        "lint:scripts": "npx eslint src/**/*.js template-library/**/*.js -c node_modules/@joinbox/eslint-config-joinbox/index.js",
+        "lint:styles": "npx stylelint \"src/**/*.scss\" \"template-library/**/*.scss\" --config .stylelintrc",
+        "lint:scripts": "npx eslint \"src/**/*.js\" \"template-library/**/*.js\" -c node_modules/@joinbox/eslint-config-joinbox/index.js",
         "dev": "npm-run-all clean -p copy:* dev:* watch:*",
         "live": "npm-run-all clean -p copy:* live:*"
     }
