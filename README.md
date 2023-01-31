@@ -89,8 +89,8 @@ Use the following setup for Drupal projects:
         "copy:media": "mkdir -p dist/media && cp -r src/media dist",
         "watch:media": "npx chokidar \"src/media/**/*.*\" -c \"npm run copy:media\"",
         "clean": "(rm -r dist || true)",
-        "lint:styles": "npx stylelint src/**/*.scss template-library/**/*.scss --config .stylelintrc",
-        "lint:scripts": "npx eslint src/**/*.js template-library/**/*.js -c node_modules/@joinbox/eslint-config-joinbox/index.js",
+        "lint:styles": "npx stylelint \"src/**/*.scss\" \"template-library/**/*.scss\" --config .stylelintrc",
+        "lint:scripts": "npx eslint \"src/**/*.js\" \"template-library/**/*.js\" -c node_modules/@joinbox/eslint-config-joinbox/index.js",
         "dev": "npm-run-all clean -p copy:* dev:* watch:*",
         "live": "npm-run-all clean -p copy:* live:*"
     }
