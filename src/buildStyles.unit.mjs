@@ -49,7 +49,18 @@ test('works with globs', async(t) => {
     });
     const files = readdirSync(destinationFolder);
     t.deepEqual(files, ['main.css', 'main.css.map', 'main2.css', 'main2.css.map']);
-    const content = readFileSync(join(destinationFolder, 'main.css'), 'utf8');
+    clear();
+});
+
+test('does not compile partials starting with _', async(t) => {
+    clear();
+    await buildStyles({
+        sourceFolder,
+        sourceFiles: ['*.scss'],
+        destinationFolder,
+    });
+    const files = readdirSync(destinationFolder);
+    t.is(files.includes('_partial.css'), false);
     clear();
 });
 
@@ -78,5 +89,18 @@ test('adds prefixes', async(t) => {
     });
     const content = readFileSync(join(destinationFolder, 'main.css'), 'utf8');
     t.is(content.includes('-webkit-appearance'), true);
+    clear();
+});
+
+test('creates folder structure relative to sourceFolder', async (t) => {
+    clear();
+    await buildStyles({
+        sourceFolder,
+        sourceFiles: ['**/sub*.scss'],
+        destinationFolder,
+        compress: true,
+    });
+    const files = readdirSync(join(destinationFolder, 'subFolder'));
+    t.deepEqual(files, ['subfolder-style.css', 'subfolder-style.css.map']);
     clear();
 });

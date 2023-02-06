@@ -65,6 +65,7 @@ const buildScripts = async({
         plugins: [swc],
         target, // Add this to minify correctly for ES5, if ES5 is passed
         minify,
+        outbase: sourceFolder,
     });
 
     const result = await esbuildContext.rebuild();
@@ -75,7 +76,7 @@ const buildScripts = async({
         // dispose it instantly if we're not watching any files
         esbuildContext.dispose();
     } else {
-        watchFiles(watch, async() => {
+        watchFiles(watch, async () => {
             const rebuildResult = await esbuildContext.rebuild();
             logResult(rebuildResult, sourceFilesWithPath.length, showNotifications);
         });
