@@ -10,7 +10,7 @@ const asyncExec = promisify(exec);
 const basePath = dirname(fileURLToPath(new URL(import.meta.url)));
 const clear = () => deleteAsync(join(basePath, '../test/dist'));
 
-test.only('exposes and executes style command', async(t) => {
+test('exposes and executes style command', async(t) => {
     const { stdout, stderr } = await asyncExec(
         'node src/cli.mjs styles -c -s test/src/sass -d test/dist/css "**/*.scss"',
     );
