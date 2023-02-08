@@ -45,7 +45,7 @@ program
     .option('-t, --target <string>', 'target ES version for SWC and esbuild, see https://esbuild.github.io/content-types/#real-esm-imports; value must be compatible with both esbuild and SWC; defaults to \'es2022\'')
     .option('-w, --watch <paths>', 'watch files that match paths and rerun build task on changes; you may use globs, put them in quotation marks; split multiple paths by a comma', convertCommaSeparatedListToArray)
     .option('-n, --notifications', 'show notifications on successful completion; defaults to false')
-    .option('-r, --rename', 'rename output files, e.g. [src]/[name]-[hash]-out, see esbuild\'s entryNames option')
+    .option('-r, --rename <string>', 'rename output files, e.g. [src]/[name]-[hash]-out, see esbuild\'s entryNames option')
     .action((sourceFiles, options) => {
         const parameters = {
             ...options,
