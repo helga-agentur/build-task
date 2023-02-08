@@ -10,7 +10,7 @@ const destination = join(basePath, '../test/dist/js');
 const source = join(basePath, '../test/src/js');
 const clear = () => deleteAsync(join(basePath, '../test/dist'));
 
-test('builds JavaScript files', async(t) => {
+test('builds JavaScript files', async (t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main.js'],
@@ -42,7 +42,7 @@ test('builds JavaScript files', async(t) => {
     // await clear();
 });
 
-test('works with multiple files', async(t) => {
+test('works with multiple files', async (t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main.js', 'main2.js'],
@@ -54,7 +54,7 @@ test('works with multiple files', async(t) => {
     await clear();
 });
 
-test('works with globs', async(t) => {
+test('works with globs', async (t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main*.js'],
@@ -66,7 +66,7 @@ test('works with globs', async(t) => {
     await clear();
 });
 
-test('minifies files', async(t) => {
+test('minifies files', async (t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main.js'],
@@ -80,7 +80,7 @@ test('minifies files', async(t) => {
     await clear();
 });
 
-test('creates subdirectories in output path if needed', async(t) => {
+test('creates subdirectories in output path if needed', async (t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['**/subFolderScript.js'],
@@ -89,5 +89,18 @@ test('creates subdirectories in output path if needed', async(t) => {
     });
     const files = readdirSync(join(destination, 'subFolder'));
     t.deepEqual(files, ['subFolderScript.js', 'subFolderScript.js.map']);
+    await clear();
+});
+
+test('renames output files if destinationName is provided', async (t) => {
+    await clear();
+    await buildScripts({
+        sourceFiles: ['main.js'],
+        sourceFolder: source,
+        destinationFolder: destination,
+        destinationName: '[name]-out',
+    });
+    const files = readdirSync(destination);
+    t.deepEqual(files, ['main-out.js', 'main-out.js.map']);
     await clear();
 });

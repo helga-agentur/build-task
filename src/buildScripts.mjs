@@ -30,6 +30,19 @@ const logResult = ({ warnings, errors } = {}, numberOfFiles = 0, showNotificatio
  * stable).
  * Use our own glob solution as NPM handles globs differently on different operating systems
  * (see https://medium.com/@jakubsynowiec/you-should-always-quote-your-globs-in-npm-scripts-621887a2a784)
+ * @param {string} destinationFolder        Folder to write output files to
+ * @param {string} sourceFolder             Base folder from where sourceFiles will be looked up.
+ *                                          The output of source files in subfolders relative to
+ *                                          sourceFolder will be placed in the same subfolder
+ *                                          structure relative to destinationFolder
+ * @param {string} environments             See SWC's env.targets option
+ * @param {string} target                   See SWC's jsc.target and esbuild's target options
+ * @param {string[]} sourceFiles            Array of Globs to find all source files to process
+ * @param {string[]} watch                  Array of globs of files to watch and rebuild output
+ *                                          on change
+ * @param {boolean} minify                  True if output files should be minified
+ * @param {boolean} showNotifications       True if OS notifications should be displayed
+ * @param {string} destinationName          See esbuild's entryNames option
  */
 const buildScripts = async({
     destinationFolder = '.',
@@ -40,6 +53,7 @@ const buildScripts = async({
     watch = [],
     minify = false,
     showNotifications = false,
+    destinationName,
 } = {}) => {
 
     const sourceFilesWithPath = resolveGlobs(sourceFiles, sourceFolder);
@@ -66,6 +80,7 @@ const buildScripts = async({
         target, // Add this to minify correctly for ES5, if ES5 is passed
         minify,
         outbase: sourceFolder,
+        ...(destinationName && { entryNames: destinationName }),
     });
 
     const result = await esbuildContext.rebuild();
