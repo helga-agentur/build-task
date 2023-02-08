@@ -1,4 +1,4 @@
-import { join, basename, dirname } from 'path';
+import { join, basename, dirname, relative } from 'path';
 import { writeFileSync, mkdirSync } from 'fs';
 import autoprefixer from 'autoprefixer';
 import postcss from 'postcss';
@@ -23,13 +23,21 @@ const buildStyles = async({
     showNotifications = false,
 } = {}) => {
 
-    const files = resolveGlobs(sourceFiles, sourceFolder);
+    /*
+     * Sass handles files starting with an underline (_) as partial and therefore as a file that
+     * should not be compiled, see "Partials" here: https://sass-lang.com/guide
+     */
+    const files = resolveGlobs(sourceFiles, sourceFolder)
+        .filter((file) => !basename(file).startsWith('_'))
 
     // Process files
-    const parsedCSSPromises = files.map(async(file) => {
+    const parsedCSSPromises = files.map(async (file) => {
 
         const cssFileName = basename(file).replace(/\.scss$/, '.css');
-        const destinationFilePath = join(destinationFolder, cssFileName);
+        // Store compiled file in the same folder structure that the original file has relative
+        // to sourceFolder
+        const relativePath = relative(sourceFolder, dirname(file));
+        const destinationFilePath = join(destinationFolder, relativePath, cssFileName);
 
         const sassOptions = { sourceMap: true, sourceMapIncludeSources: true, style: (compress ? 'compressed' : 'expanded') };
         const sassResult = sass.compile(file, sassOptions);
