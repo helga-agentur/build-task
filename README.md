@@ -92,9 +92,10 @@ Use the following setup for Drupal projects:
         "lint:styles": "npx stylelint \"src/**/*.scss\" \"template-library/**/*.scss\" --config .stylelintrc",
         "lint:scripts": "npx eslint \"src/**/*.js\" \"template-library/**/*.js\" -c node_modules/@joinbox/eslint-config-joinbox/index.js",
         "dev": "npm-run-all clean -p copy:* dev:* watch:*",
-        "live": "npm-run-all clean -p copy:* live:*"
+        "live": "npm-run-all clean -s copy:* live:*"
     }
     ```
+    Use `-s` option for live script because `-p` brings down Cyon servers.
 
 # Update from Earlier Versions
 
