@@ -35,6 +35,7 @@ export default (options = {}) => ({
                 jsc: {
                     parser: {
                         syntax: 'ecmascript',
+                        decorators: true
                     },
                 },
                 filename: args.path,
