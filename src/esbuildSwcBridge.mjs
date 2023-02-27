@@ -17,7 +17,7 @@ const promisifiedResolveNodeModule = promisify(resolveNodeModule);
  * Use a simple script to build scripts because esbuild does not yet support the use of plugins
  * via console (see https://github.com/evanw/esbuild/issues/884)
  */
-export default (options = {}) => ({
+export default (options = {}, swcParserOptions = {}) => ({
     name: 'esbuild-swc-bridge',
     setup(build) {
         build.onResolve({ filter: fileFilter }, async(args) => {
@@ -33,10 +33,7 @@ export default (options = {}) => ({
             const code = readFileSync(args.path, 'utf-8');
             const initialOptions = {
                 jsc: {
-                    parser: {
-                        syntax: 'ecmascript',
-                        decorators: true
-                    },
+                    parser: swcParserOptions,
                 },
                 filename: args.path,
                 sourceMaps: true,

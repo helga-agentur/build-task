@@ -68,6 +68,10 @@ const buildScripts = async({
         jsc: {
             target,
         },
+    },
+    {
+        // Add support for Decorators for Careerplus
+        decorators: true
     });
 
     // Create context in order to reuse config later in rebuild() if a watcher is setup
