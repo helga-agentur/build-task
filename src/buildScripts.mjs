@@ -61,17 +61,18 @@ const buildScripts = async({
 
     const swc = swcPlugin({
         minify,
+        sourceMaps: true,
         env: {
             targets: environments,
             mode: 'usage',
         },
         jsc: {
             target,
+            parser: {
+                // Add support for Decorators for Careerplus
+                decorators: true,
+            },
         },
-    },
-    {
-        // Add support for Decorators for Careerplus
-        decorators: true
     });
 
     // Create context in order to reuse config later in rebuild() if a watcher is setup
