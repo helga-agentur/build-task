@@ -16,6 +16,7 @@ const promisifiedResolveNodeModule = promisify(resolveNodeModule);
 /**
  * Use a simple script to build scripts because esbuild does not yet support the use of plugins
  * via console (see https://github.com/evanw/esbuild/issues/884)
+ * @param {object} options      SWC options that will be merged with options from bridge
  */
 export default (options = {}) => ({
     name: 'esbuild-swc-bridge',
@@ -32,13 +33,7 @@ export default (options = {}) => ({
         build.onLoad({ filter: fileFilter }, async(args) => {
             const code = readFileSync(args.path, 'utf-8');
             const initialOptions = {
-                jsc: {
-                    parser: {
-                        syntax: 'ecmascript',
-                    },
-                },
                 filename: args.path,
-                sourceMaps: true,
                 sourceFileName: args.path,
             };
             const result = await (transform)(code, (0, deepmerge)(initialOptions, options));
