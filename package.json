@@ -37,7 +37,8 @@
     "node-notifier": "^10.0.1",
     "postcss": "^8.4.21",
     "resolve": "^1.22.1",
-    "sass": "^1.57.1"
+    "sass": "^1.57.1",
+    "svgo": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
