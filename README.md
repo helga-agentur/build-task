@@ -96,10 +96,37 @@ Use the following setup for Drupal projects:
     }
     ```
 
+
+# SVG Optimization
+
+To use svgo to optimize SVGs:
+1. Install svgo:
+   `npm i -D svgo`
+2. Create a new file named `svgo.config.js` in your theme folder and add the following rules:
+   ```
+   module.exports = {
+    plugins: [
+        {
+            name: 'preset-default',
+            params: {
+                overrides: {
+                    removeViewBox: false,
+                },
+            },
+        },
+        'removeDimensions'
+    ]
+    };
+   ```
+3. Replace the command `"copy:media"` with the following line:
+`"copy:media": "mkdir -p dist/media && rsync -rq src/media dist/media --exclude=\"*.svg\" && svgo -f src/media -o dist/media -r -q",`
+
+
+   
 # Update from Earlier Versions
 
 If you update from earlier versions, make sure to 
-- remove all unnecessary NPM packages from package.json (especially `@babel/core`, `browser-sync`, `@babel/eslint-parser`, `gulp`, `postcss`)
+- remove all unnecessary NPM packages from package.json (especially `@babel/core`, `browser-sync`, `gulp`, `postcss`)
 - remove unnecessary `scripts` from package.json
 - remove `gulpfile.js`
 - update `@joinbox/build-task` to newest version and follow this README's instructions
