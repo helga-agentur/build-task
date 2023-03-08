@@ -61,12 +61,17 @@ const buildScripts = async({
 
     const swc = swcPlugin({
         minify,
+        sourceMaps: true,
         env: {
             targets: environments,
             mode: 'usage',
         },
         jsc: {
             target,
+            parser: {
+                // Add support for Decorators for Careerplus
+                decorators: true,
+            },
         },
     });
 

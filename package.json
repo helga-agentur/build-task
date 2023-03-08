@@ -1,6 +1,6 @@
 {
   "name": "@joinbox/build-task",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Re-usable esbuild/swc and Sass based build tasks for Joinbox Drupal projects",
   "bin": "./src/cli.mjs",
   "scripts": {
