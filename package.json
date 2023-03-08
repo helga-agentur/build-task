@@ -44,7 +44,6 @@
     "@babel/eslint-parser": "^7.19.1",
     "@joinbox/eslint-config-joinbox": "^1.0.11",
     "ava": "^5.1.1",
-    "del": "^7.0.0",
-    "eslint": "^8.32.0"
+    "del": "^7.0.0"
   }
 }

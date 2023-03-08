@@ -76,7 +76,7 @@ To see all available options, call the scripts build task with the help option (
 Use the following setup for Drupal projects:
 
 1. Install all additional modules:
-    `npm i -D chokidar-cli npm-run-all @babel/eslint-parser @joinbox/eslint-config-joinbox eslint @joinbox/stylelint-config-joinbox stylelint`
+    `npm i -D chokidar-cli npm-run-all @babel/eslint-parser @joinbox/eslint-config-joinbox eslint @joinbox/stylelint-config-joinbox stylelint svgo`
 2. Add the following `scripts` property to your `package.json`:
     ```
     "scripts": {
@@ -86,7 +86,7 @@ Use the following setup for Drupal projects:
         "live:scripts": "npx @joinbox/build-task scripts -n -m -s src/js -d dist/js main.js",
         "copy:fonts": "mkdir -p dist/webfonts && cp -r src/webfonts dist",
         "watch:fonts": "npx chokidar \"src/webfonts/**/*.*\" -c \"npm run copy:fonts\"",
-        "copy:media": "mkdir -p dist/media && cp -r src/media dist",
+        "copy:media": "mkdir -p dist/media && rsync -rq src/media dist/media --exclude=\"*.svg\" && svgo -f src/media -o dist/media -r -q",
         "watch:media": "npx chokidar \"src/media/**/*.*\" -c \"npm run copy:media\"",
         "clean": "(rm -r dist || true)",
         "lint:styles": "npx stylelint \"src/**/*.scss\" \"template-library/**/*.scss\" --config .stylelintrc",
@@ -95,34 +95,33 @@ Use the following setup for Drupal projects:
         "live": "npm-run-all clean -p copy:* live:*"
     }
     ```
-
-
-# SVG Optimization
-
-To use svgo to optimize SVGs:
-1. Install svgo:
-   `npm i -D svgo`
-2. Create a new file named `svgo.config.js` in your theme folder and add the following rules:
+3. Create a new file named `.eslintrc` in yout theme folder and add the following rules:
+    ```
+   {
+       "extends": "@joinbox/joinbox",
+       "root": true,
+       "parser": "@babel/eslint-parser"
+    }
+   ```
+4. Create a new file named `svgo.config.js` in your theme folder and add the following rules:
    ```
    module.exports = {
-    plugins: [
-        {
-            name: 'preset-default',
-            params: {
-                overrides: {
-                    removeViewBox: false,
-                },
-            },
-        },
-        'removeDimensions'
-    ]
+      plugins: [
+          {
+              name: 'preset-default',
+              params: {
+                  overrides: {
+                      removeViewBox: false,
+                  },
+              },
+          },
+          'removeDimensions'
+      ]
     };
    ```
-3. Replace the command `"copy:media"` with the following line:
-`"copy:media": "mkdir -p dist/media && rsync -rq src/media dist/media --exclude=\"*.svg\" && svgo -f src/media -o dist/media -r -q",`
 
 
-   
+
 # Update from Earlier Versions
 
 If you update from earlier versions, make sure to 
