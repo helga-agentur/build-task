@@ -3,7 +3,7 @@ import { writeFileSync, mkdirSync } from 'fs';
 import autoprefixer from 'autoprefixer';
 import postcss from 'postcss';
 import notifier from 'node-notifier';
-import sass from 'sass';
+import {compile} from 'sass';
 import resolveGlobs from './resolveGlobs.mjs';
 import watchFiles from './watchFiles.mjs';
 
@@ -40,7 +40,7 @@ const buildStyles = async({
         const destinationFilePath = join(destinationFolder, relativePath, cssFileName);
 
         const sassOptions = { sourceMap: true, sourceMapIncludeSources: true, style: (compress ? 'compressed' : 'expanded') };
-        const sassResult = sass.compile(file, sassOptions);
+        const sassResult = compile(file, sassOptions);
 
         // prev: Pass a previous sourceMap object, see docs for SourceMapOptions at
         // https://postcss.org/api/; comment here
