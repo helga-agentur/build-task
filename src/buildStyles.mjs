@@ -3,7 +3,7 @@ import { writeFileSync, mkdirSync } from 'fs';
 import autoprefixer from 'autoprefixer';
 import postcss from 'postcss';
 import notifier from 'node-notifier';
-import {compile} from 'sass';
+import { compile } from 'sass';
 import resolveGlobs from './resolveGlobs.mjs';
 import watchFiles from './watchFiles.mjs';
 
