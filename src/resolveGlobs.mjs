@@ -1,5 +1,5 @@
 import { join } from 'path';
-import glob from 'glob';
+import { globSync } from 'glob';
 
 /**
  * Prefixes glob paths with a base and resolves them globs
@@ -9,6 +9,6 @@ import glob from 'glob';
 export default (globPaths, basePath) => (
     globPaths
         .map((file) => (basePath ? join(basePath, file) : file))
-        .map((fileWithPath) => glob.sync(fileWithPath))
+        .map((fileWithPath) => globSync(fileWithPath))
         .flat()
 );

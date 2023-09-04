@@ -21,7 +21,7 @@ const promisifiedResolveNodeModule = promisify(resolveNodeModule);
 export default (options = {}) => ({
     name: 'esbuild-swc-bridge',
     setup(build) {
-        build.onResolve({ filter: fileFilter }, async(args) => {
+        build.onResolve({ filter: fileFilter }, async (args) => {
             // Resolve node_modules
             const fullPath = args.path.startsWith('.')
                 ? resolvePath(args.resolveDir, args.path)
@@ -30,7 +30,7 @@ export default (options = {}) => ({
                 path: fullPath,
             };
         });
-        build.onLoad({ filter: fileFilter }, async(args) => {
+        build.onLoad({ filter: fileFilter }, async (args) => {
             const code = readFileSync(args.path, 'utf-8');
             const initialOptions = {
                 filename: args.path,
@@ -41,7 +41,6 @@ export default (options = {}) => ({
                 contents: result.code,
                 loader: 'js',
             };
-
         });
     },
 });

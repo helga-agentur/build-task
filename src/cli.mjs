@@ -42,7 +42,7 @@ program
     .option('-s, --source-folder <path>', 'path to source folder; all source files must be placed relatively to this path; defaults to \'.\'')
     .option('-d, --destination-folder <path>', 'path to destination folder; all output files will be placed within this folder; defaults to \'.\'')
     .option('-e, --environments <string>', 'browserlist compatible string of browsers/environments to support; defaults to \'> 1%, not dead\'')
-    .option('-t, --target <string>', 'target ES version for SWC and esbuild, see https://esbuild.github.io/content-types/#real-esm-imports; value must be compatible with both esbuild and SWC; defaults to \'es2022\'')
+    .option('-t, --target <string>', 'target ES version for esbuild, see https://esbuild.github.io/content-types/#real-esm-imports; defaults to \'es2022\'')
     .option('-w, --watch <paths>', 'watch files that match paths and rerun build task on changes; you may use globs, put them in quotation marks; split multiple paths by a comma', convertCommaSeparatedListToArray)
     .option('-n, --notifications', 'show notifications on successful completion; defaults to false')
     .option('-r, --rename <string>', 'rename output files, e.g. [src]/[name]-[hash]-out, see esbuild\'s entryNames option')
@@ -56,6 +56,4 @@ program
         buildScripts(parameters);
     });
 
-
 program.parse(process.argv);
-

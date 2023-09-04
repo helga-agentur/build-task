@@ -23,7 +23,6 @@ const logResult = ({ warnings, errors } = {}, numberOfFiles = 0, showNotificatio
     if (showNotifications) notifier.notify(notificationOptions);
 };
 
-
 /**
  * Use our own script (instead of relying only on console commands) because the console does not
  * support SWC bridges (needed to make it work with esbuild as SWC's build feature is not yet
@@ -44,7 +43,7 @@ const logResult = ({ warnings, errors } = {}, numberOfFiles = 0, showNotificatio
  * @param {boolean} showNotifications       True if OS notifications should be displayed
  * @param {string} destinationName          See esbuild's entryNames option
  */
-const buildScripts = async({
+const buildScripts = async ({
     destinationFolder = '.',
     sourceFolder = '.',
     environments = '> 1%, not dead',
@@ -55,7 +54,6 @@ const buildScripts = async({
     showNotifications = false,
     destinationName,
 } = {}) => {
-
     const sourceFilesWithPath = resolveGlobs(sourceFiles, sourceFolder);
     mkdirSync(destinationFolder, { recursive: true });
 
@@ -67,7 +65,6 @@ const buildScripts = async({
             mode: 'usage',
         },
         jsc: {
-            target,
             parser: {
                 // Add support for Decorators for Careerplus
                 decorators: true,
@@ -101,7 +98,6 @@ const buildScripts = async({
             logResult(rebuildResult, sourceFilesWithPath.length, showNotifications);
         });
     }
-
 };
 
 export default buildScripts;
