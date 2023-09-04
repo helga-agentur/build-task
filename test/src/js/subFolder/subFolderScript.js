@@ -1,1 +1,2 @@
+/* global alert */
 alert('ok');
