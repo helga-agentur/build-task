@@ -1,4 +1,9 @@
-import { join, basename, dirname, relative } from 'path';
+import {
+    join,
+    basename,
+    dirname,
+    relative,
+} from 'path';
 import { writeFileSync, mkdirSync } from 'fs';
 import autoprefixer from 'autoprefixer';
 import postcss from 'postcss';
@@ -6,7 +11,6 @@ import notifier from 'node-notifier';
 import { compile } from 'sass';
 import resolveGlobs from './resolveGlobs.mjs';
 import watchFiles from './watchFiles.mjs';
-
 
 /**
  * Use a simple script to build styles as the CLI version of SASS does e.g.
@@ -22,7 +26,6 @@ const buildStyles = async({
     compress = false,
     showNotifications = false,
 } = {}) => {
-
     /*
      * Sass handles files starting with an underline (_) as partial and therefore as a file that
      * should not be compiled, see "Partials" here: https://sass-lang.com/guide
@@ -32,7 +35,6 @@ const buildStyles = async({
 
     // Process files
     const parsedCSSPromises = files.map(async (file) => {
-
         const cssFileName = basename(file).replace(/\.scss$/, '.css');
         // Store compiled file in the same folder structure that the original file has relative
         // to sourceFolder
@@ -55,7 +57,8 @@ const buildStyles = async({
         const postCSSResult = await postcss([autoprefixer]).process(sassResult.css, postCSSOptions);
         postCSSResult.warnings().forEach((warning) => console.warn(warning.toString()));
 
-        // Sass sets an absolute path as source in the source map, so we overwrite it with a relative one
+        // Sass sets an absolute path as source in the source map, so we overwrite it with a 
+        // relative one
         sassResult.sourceMap.sources = [file];
 
         return {
@@ -63,7 +66,6 @@ const buildStyles = async({
             sourceMap: sassResult.sourceMap,
             destinationFilePath,
         };
-
     });
     const parsedCSSInfo = await Promise.all(parsedCSSPromises);
 
@@ -88,12 +90,9 @@ const buildStyles = async({
     // Also log success message if notifications are not enabled
     console.log(`${notificationOptions.title}: ${notificationOptions.message}`);
     if (showNotifications) notifier.notify(notificationOptions);
-
 };
 
-
 const main = async({ watch = [], ...args } = {}) => {
-
     // Run initially
     await buildStyles(args);
 
@@ -101,7 +100,6 @@ const main = async({ watch = [], ...args } = {}) => {
     if (watch.length) {
         watchFiles(watch, () => buildStyles(args));
     }
-
 };
 
 export default main;

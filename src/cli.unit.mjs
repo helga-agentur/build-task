@@ -1,7 +1,7 @@
 import test from 'ava';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { readdirSync, existsSync } from 'fs';
+import { readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { deleteAsync } from 'del';
 import { fileURLToPath } from 'url';

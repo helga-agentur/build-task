@@ -10,7 +10,7 @@ const destination = join(basePath, '../test/dist/js');
 const source = join(basePath, '../test/src/js');
 const clear = () => deleteAsync(join(basePath, '../test/dist'));
 
-test('builds JavaScript files', async (t) => {
+test.serial('builds JavaScript files', async (t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main.js'],
@@ -39,10 +39,10 @@ test('builds JavaScript files', async (t) => {
     t.is(content.includes('async '), false);
     // See if core-js polyfills are added correctly
     t.is(content.includes('core-js'), true);
-    // await clear();
+    await clear();
 });
 
-test('works with multiple files', async (t) => {
+test.serial('works with multiple files', async (t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main.js', 'main2.js'],
@@ -54,7 +54,7 @@ test('works with multiple files', async (t) => {
     await clear();
 });
 
-test('works with globs', async (t) => {
+test.serial('works with globs', async (t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main*.js'],
@@ -66,7 +66,7 @@ test('works with globs', async (t) => {
     await clear();
 });
 
-test('minifies files', async (t) => {
+test.serial('minifies files', async (t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main.js'],
@@ -80,7 +80,7 @@ test('minifies files', async (t) => {
     await clear();
 });
 
-test('creates subdirectories in output path if needed', async (t) => {
+test.serial('creates subdirectories in output path if needed', async (t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['**/subFolderScript.js'],
@@ -92,7 +92,7 @@ test('creates subdirectories in output path if needed', async (t) => {
     await clear();
 });
 
-test('renames output files if destinationName is provided', async (t) => {
+test.serial('renames output files if destinationName is provided', async (t) => {
     await clear();
     await buildScripts({
         sourceFiles: ['main.js'],

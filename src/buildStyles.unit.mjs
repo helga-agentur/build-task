@@ -10,8 +10,7 @@ const destinationFolder = join(basePath, '../test/dist/css');
 const sourceFolder = join(basePath, '../test/src/sass');
 const clear = () => deleteSync(join(basePath, '../test/dist'));
 
-
-test('doesn\'t throw with defaults', async(t) => {
+test.serial('doesn\'t throw with defaults', async(t) => {
     clear();
     try {
         await buildStyles();
@@ -22,7 +21,7 @@ test('doesn\'t throw with defaults', async(t) => {
     clear();
 });
 
-test('works with multiple entry points', async(t) => {
+test.serial('works with multiple entry points', async(t) => {
     clear();
     await buildStyles({
         sourceFolder,
@@ -40,7 +39,7 @@ test('works with multiple entry points', async(t) => {
     clear();
 });
 
-test('works with globs', async(t) => {
+test.serial('works with globs', async(t) => {
     clear();
     await buildStyles({
         sourceFolder,
@@ -52,7 +51,7 @@ test('works with globs', async(t) => {
     clear();
 });
 
-test('does not compile partials starting with _', async(t) => {
+test.serial('does not compile partials starting with _', async(t) => {
     clear();
     await buildStyles({
         sourceFolder,
@@ -64,7 +63,7 @@ test('does not compile partials starting with _', async(t) => {
     clear();
 });
 
-test('works with the compress option', async(t) => {
+test.serial('works with the compress option', async(t) => {
     clear();
     await buildStyles({
         sourceFolder,
@@ -79,7 +78,7 @@ test('works with the compress option', async(t) => {
     clear();
 });
 
-test('adds prefixes', async(t) => {
+test.serial('adds prefixes', async(t) => {
     clear();
     await buildStyles({
         sourceFolder,
@@ -92,7 +91,7 @@ test('adds prefixes', async(t) => {
     clear();
 });
 
-test('creates folder structure relative to sourceFolder', async (t) => {
+test.serial('creates folder structure relative to sourceFolder', async (t) => {
     clear();
     await buildStyles({
         sourceFolder,

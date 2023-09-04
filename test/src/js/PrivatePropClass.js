@@ -1,5 +1,4 @@
 export default class {
-
     #privateField = 5;
 
     constructor() {
@@ -10,5 +9,4 @@ export default class {
         await new Promise();
         return this.#privateField;
     }
-
-};
+}

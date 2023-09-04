@@ -6,4 +6,4 @@ export default (nr) => {
     const a = Math.random();
     const b = (a < 0.5) ?? 2;
     return `${functionName}-${nr * b}`;
-}
+};
