@@ -66,6 +66,7 @@ const buildScripts = async ({
         },
         jsc: {
             parser: {
+                syntax: 'typescript',
                 // Add support for Decorators for Careerplus
                 decorators: true,
             },
