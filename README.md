@@ -1,6 +1,6 @@
 # Intro
 
-Build task for Joinbox' Drupal projects that provides command line actions running with reasonable
+Build task for Helga's Drupal projects that provides command line actions running with reasonable
 defaults for JavaScripts and SASS.
 
 Tasks include multiple options, the ability to emit notifications on success and source maps.
@@ -8,7 +8,7 @@ Tasks include multiple options, the ability to emit notifications on success and
 
 # Installation
 
-`npm i -D @joinbox/build-task core-js regenerator-runtime`
+`npm i -D @helga-agency/build-task core-js regenerator-runtime`
 
 `core-js` and `regenerator-runtime` are required to inline the corresponding polyfills.
 
@@ -29,7 +29,7 @@ paths in this case
 
 ### Command
 
-`npx @joinbox/build-task styles -n -c -s src/scss -d dist/css -w "**/*.scss, other-path/*.scss" "**/*.scss"`
+`npx @helga-agency/build-task styles -n -c -s src/scss -d dist/css -w "**/*.scss, other-path/*.scss" "**/*.scss"`
 
 Make sure to use quotation marks around paths if you use globs (in order for them to be resolved
 through JS instead of CLI)
@@ -38,7 +38,7 @@ through JS instead of CLI)
 
 To see all available options, call the styles build task with the help option (`-h` or `--help`):
 
-`npx @joinbox/build-task styles -h`
+`npx @helga-agency/build-task styles -h`
 
 
 ## Scripts
@@ -58,7 +58,7 @@ paths in this case
 
 ### Command
 
-`npx @joinbox/build-task scripts -m -t es5 -e "ie 11" -s src/js -d dist/js -w "**/*.js, other-path/*.js" "**/*.js"`
+`npx @helga-agency/build-task scripts -m -t es5 -e "ie 11" -s src/js -d dist/js -w "**/*.js, other-path/*.js" "**/*.js"`
 
 Make sure to use quotation marks around paths if you use globs (in order for them to be resolved
 through JS instead of CLI)
@@ -67,7 +67,7 @@ through JS instead of CLI)
 
 To see all available options, call the scripts build task with the help option (`-h` or `--help`):
 
-`npx @joinbox/build-task scripts -h`
+`npx @helga-agency/build-task scripts -h`
 
 
 
@@ -80,10 +80,10 @@ Use the following setup for Drupal projects:
 2. Add the following `scripts` property to your `package.json`:
     ```
     "scripts": {
-        "dev:styles": "npm run lint:styles ; npx @joinbox/build-task styles -n -s src/scss -d dist/css -w \"src/scss/**/*.scss, template-library/**/*.scss\" main.scss",
-        "live:styles": "npx @joinbox/build-task styles -n -c -s src/scss -d dist/css main.scss",
-        "dev:scripts": "npm run lint:scripts ; npx @joinbox/build-task scripts -n -s src/js -d dist/js -w \"src/js/**/*.js, template-library/**/*.js\" main.js",
-        "live:scripts": "npx @joinbox/build-task scripts -n -m -s src/js -d dist/js main.js",
+        "dev:styles": "npm run lint:styles ; npx @helga-agency/build-task styles -n -s src/scss -d dist/css -w \"src/scss/**/*.scss, template-library/**/*.scss\" main.scss",
+        "live:styles": "npx @helga-agency/build-task styles -n -c -s src/scss -d dist/css main.scss",
+        "dev:scripts": "npm run lint:scripts ; npx @helga-agency/build-task scripts -n -s src/js -d dist/js -w \"src/js/**/*.js, template-library/**/*.js\" main.js",
+        "live:scripts": "npx @helga-agency/build-task scripts -n -m -s src/js -d dist/js main.js",
         "copy:fonts": "mkdir -p dist/webfonts && cp -r src/webfonts dist",
         "watch:fonts": "npx chokidar \"src/webfonts/**/*.*\" -c \"npm run copy:fonts\"",
         "copy:media": "mkdir -p dist/media && rsync -rq src/media dist/media --exclude=\"*.svg\" && svgo -f src/media -o dist/media -r -q",
@@ -101,9 +101,8 @@ Use the following setup for Drupal projects:
 3. Create a new file named `.eslintrc` in yout theme folder and add the following rules:
     ```
    {
-       "extends": "@joinbox/joinbox",
-       "root": true,
-       "parser": "@babel/eslint-parser"
+       "extends" : ["@helga-agency/joinbox"],
+       "root": true
     }
    ```
 4. Create a new file named `svgo.config.js` in your theme folder and add the following rules:
@@ -131,4 +130,4 @@ If you update from earlier versions, make sure to
 - remove all unnecessary NPM packages from package.json (especially `@babel/core`, `browser-sync`, `gulp`, `postcss`)
 - remove unnecessary `scripts` from package.json
 - remove `gulpfile.js`
-- update `@joinbox/build-task` to newest version and follow this README's instructions
+- update `@helga-agency/build-task` to newest version and follow this README's instructions
