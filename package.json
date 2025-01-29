@@ -1,7 +1,7 @@
 {
-  "name": "@joinbox/build-task",
+  "name": "@helga-agency/build-task",
   "version": "3.3.0",
-  "description": "Re-usable esbuild/swc and Sass based build tasks for Joinbox Drupal projects",
+  "description": "Re-usable esbuild/swc and Sass based build tasks for Helga Agency Drupal projects",
   "bin": "./src/cli.mjs",
   "scripts": {
     "test": "npx ava --verbose --watch --serial"
@@ -17,14 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joinbox/build-task.git"
+    "url": "git@github.com:helga-agentur/build-task.git"
   },
   "author": "Felix Steiner",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/joinbox/build-task/issues"
+    "url": "https://github.com/helga-agentur/build-task/issues"
   },
-  "homepage": "https://github.com/joinbox/build-task#readme",
+  "homepage": "https://github.com/helga-agentur/build-task#readme",
   "dependencies": {
     "@swc/core": "1.3.82",
     "autoprefixer": "^10.4.15",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@babel/core": "^7.22.11",
     "@babel/eslint-parser": "^7.22.11",
-    "@joinbox/eslint-config-joinbox": "^2.0.0",
+    "@helga-agency/eslint-config-joinbox": "^2.0.0",
     "ava": "^5.3.1",
     "del": "^7.1.0",
     "eslint": "^8.48.0"
