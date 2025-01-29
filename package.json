@@ -1,6 +1,6 @@
 {
   "name": "@helga-agency/build-task",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "Re-usable esbuild/swc and Sass based build tasks for Helga Agency Drupal projects",
   "bin": "./src/cli.mjs",
   "scripts": {
