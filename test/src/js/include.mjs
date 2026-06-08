@@ -4,6 +4,6 @@ export default (nr) => {
     // Test Nullish Coalescing
     const functionName = 'myIncludeFunction';
     const a = Math.random();
-    const b = (a < 0.5) ?? 2;
+    const b = (a < 0.5 ? null : a) ?? 2;
     return `${functionName}-${nr * b}`;
 };
